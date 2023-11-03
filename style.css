@@ -1,39 +1,15 @@
+/* Avoid overflow in the bottom*/
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* Fixed width for buttons */
 .custom-btn {
-  width: 125px; /* Fixed width for larger screens */
+  width: 125px;
 }
-
-.main-content {
-  padding-bottom: 60px; /* Adjust the value based on the footer's height */
-}
-
-body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-.main {
-  flex: 1;
-}
-
-/*
-html {
-  height: 100%;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  margin: 0;
-}
-
-body > div {
-  flex: 1;
-}
-
-footer {
-  background-color: rgba(0, 0, 0, 0.05);
-  width: 100%;
-}
-*/

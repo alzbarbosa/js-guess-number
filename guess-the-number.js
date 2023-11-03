@@ -1,18 +1,22 @@
 // Constants for elements
-const noOfGuessesElement = document.getElementById("no-of-guesses");
-const guessedNumsElement = document.getElementById("guessed-nums");
-const messageAlert = document.getElementById("messageAlert");
-const messageSubHeader = document.getElementById("subHeader");
-const historyComputerNumbers = document.getElementById("comp-nums"); //
+const numberOfGuessesElement = document.getElementById("number-of-guesses");
+const guessedNumbersElement = document.getElementById("guessed-numbers-user");
+const messageAlert = document.getElementById("message-alert");
+const messageSubHeader = document.getElementById("sub-header");
+const historyComputerNumbers = document.getElementById("computer-numbers"); //
+const userInput = document.getElementById("user-input");
+const guessButton = document.getElementById("guess-button");
+const newGameButton = document.getElementById("new-game-button");
 
 // Start game configuration
+const initialMessage = "Which number am I thinking?";
 let minValueNumber = 1;
-let maxValueNumber = 5;
+let maxValueNumber = 100;
 let computerGuessedNumber = randomNumber(minValueNumber, maxValueNumber);
 let guessedNumbers = [];
 let currentGuessCount = 0;
 let computerGeneratedNumbers = [];
-messageAlert.textContent = "Which number am I thinking?";
+messageAlert.textContent = initialMessage;
 messageSubHeader.textContent = `Try to guess a number between ${minValueNumber} and ${maxValueNumber}.`;
 
 // Return a random number between minimum value and the parameter max
@@ -21,13 +25,14 @@ function randomNumber(min, max) {
 }
 
 function checkGuess() {
-  const userGuess = parseInt(document.getElementById("guessInput").value);
+  const userGuess = parseInt(userInput.value);
   console.log(userGuess);
   console.log(computerGuessedNumber);
 
-  clearInput(); // Use a function for clearing input
-  resetMessageAlert(); // Reset message alert style
+  // Clear the input for the next
+  clearInput(userInput);
 
+  // Check if the number is in the range of the minimum and maximum number
   if (!userGuess || userGuess < minValueNumber || userGuess > maxValueNumber) {
     updateMessageAlert(
       `Please enter a number between ${minValueNumber} and ${maxValueNumber}.`,
@@ -36,15 +41,17 @@ function checkGuess() {
     return;
   }
 
+  // Update the guessed numbers and current count
   guessedNumbers.push(userGuess);
   currentGuessCount++;
 
   // Update the display for number of guesses
-  noOfGuessesElement.textContent = currentGuessCount;
+  numberOfGuessesElement.textContent = currentGuessCount;
 
   // Update the display for guessed numbers
-  guessedNumsElement.textContent = guessedNumbers.join(", ");
+  guessedNumbersElement.textContent = guessedNumbers.join(", ");
 
+  // Compares user number with computer numbers and procede according the result
   if (userGuess === computerGuessedNumber) {
     updateMessageAlert(
       `Congratulations! You guessed it! - The number was ${computerGuessedNumber}`,
@@ -52,8 +59,8 @@ function checkGuess() {
     );
     updateRecord(currentGuessCount);
     updateComputerChosenNumbers(computerGuessedNumber);
-    document.getElementById("guessInput").disabled = true;
-    document.getElementById("guessButton").disabled = true;
+    userInput.disabled = true;
+    guessButton.disabled = true;
   } else if (userGuess < computerGuessedNumber) {
     updateMessageAlert("Too low!", "alert-warning");
   } else {
@@ -61,7 +68,7 @@ function checkGuess() {
   }
 }
 
-// Function to check if the current win beats the record, and update the record accordingly
+// Function to check if the current winner count guesses beats the record, and update the record accordingly
 function updateRecord(guessCount) {
   // Retrieve the record from local storage, or set it to a high number by default
   let recordGuesses =
@@ -71,7 +78,8 @@ function updateRecord(guessCount) {
   if (guessCount < recordGuesses) {
     // Save the new record to local storage
     localStorage.setItem("guessGameRecord", guessCount.toString());
-    displayRecord(); // Call a function to update the record display on the page
+    // Update the record display on the page
+    displayRecord();
   }
 }
 
@@ -89,46 +97,28 @@ function displayRecord() {
   // Update the DOM with the record information
   document.getElementById(
     "record-guesses"
-  ).textContent = `Record: ${recordGuesses} guesses`;
+  ).textContent = `Personal Record: ${recordGuesses} guesses`;
 }
 
 function displayComputerGeneratedNumbers() {
-  // Load the array from local storage or initialize it as an empty array
+  // Load the array from local storage. If empty it initializes an empty array
   computerGeneratedNumbers =
     JSON.parse(localStorage.getItem("computerGeneratedNumbers")) || [];
 
   // Clear the existing badges
   historyComputerNumbers.innerHTML = "";
 
-  // Create and append badge elements to the `historyComputerNumbers` container for each number
+  // Create and append badge elements for each number
   computerGeneratedNumbers.forEach((number) => {
     const badge = document.createElement("span");
     badge.textContent = number;
-    badge.classList.add("badge", "bg-primary", "rounded-pill", "me-1"); // "me-1" for margin-right if using Bootstrap 5
+    badge.classList.add("badge", "bg-primary", "rounded-pill", "me-1");
     historyComputerNumbers.appendChild(badge);
   });
-
-  //historyComputerNumbers.textContent = computerGeneratedNumbers.join(", ");
-
-  /*
-  const list = document.getElementById("computerNumbersList");
-  list.innerHTML = ""; // Clear the current list
-
-  // Create and append list items to the list for each number
-  computerGeneratedNumbers.forEach((number) => {
-    const listItem = document.createElement("li");
-    listItem.textContent = number;
-    listItem.classList.add("list-group-item", "text-center");
-    list.appendChild(listItem);
-  });
-  */
 }
 
 function resetGame() {
-  if (
-    currentGuessCount > 0 &&
-    !confirm("Are you sure you want to start a new game?")
-  ) {
+  if (currentGuessCount > 0 && !confirm("Do you want to start a new game?")) {
     return; // User chose not to reset the game
   }
 
@@ -138,26 +128,23 @@ function resetGame() {
   currentGuessCount = 0;
 
   // Reset the display for number of guesses and guessed numbers
-  document.getElementById("no-of-guesses").textContent = "0";
-  document.getElementById("guessed-nums").textContent = "None";
+  numberOfGuessesElement.textContent = "0";
+  guessedNumbersElement.textContent = "None";
 
-  // Clear any existing hint messages
-  messageAlert.className = "alert w-50 mx-auto alert-primary";
-  messageAlert.textContent = "Which number am I thinking?";
+  // Reset the message for the initial content
+  updateMessageAlert(initialMessage, "alert-primary");
 
-  // Enable the guess input in case it was disabled
-  document.getElementById("guessInput").disabled = false;
-  document.getElementById("guessButton").disabled = false;
+  // Enable the guess input and guess button
+  userInput.disabled = false;
+  guessButton.disabled = false;
 
-  // Clear the guess input
-  document.getElementById("guessInput").value = "";
-
+  // load the computer guessed numbers
   displayComputerGeneratedNumbers();
 }
 
-// !!!NEED BETTER DESCRIPTION Clear input function
-function clearInput() {
-  document.getElementById("guessInput").value = "";
+// Clear input function
+function clearInput(input) {
+  input.value = "";
 }
 
 // Reset message alert style function
@@ -172,18 +159,19 @@ function resetMessageAlert() {
 
 // Update message alert with text and class
 function updateMessageAlert(text, alertClass) {
+  resetMessageAlert();
   messageAlert.textContent = text;
   if (alertClass) {
     messageAlert.classList.add(alertClass);
   }
 }
 
-// Add event listener for the "New Game" button
-document.getElementById("newGameButton").addEventListener("click", resetGame);
-document.getElementById("guessButton").addEventListener("click", checkGuess);
+// Event listeners for the buttons
+guessButton.addEventListener("click", checkGuess);
+newGameButton.addEventListener("click", resetGame);
 
-// Call this function when the page loads to display the current record
+// Load current record and computer guessed numbers
 document.addEventListener("DOMContentLoaded", function () {
   displayRecord();
-  displayComputerGeneratedNumbers(); // Load the numbers when the page is loaded
+  displayComputerGeneratedNumbers();
 });

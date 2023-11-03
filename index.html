@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Guess the Number Game</title>
-    <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -21,103 +20,147 @@
         <button
           class="navbar-toggler"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarNavAltMarkup"
-          aria-controls="navbarNavAltMarkup"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div
-          class="collapse navbar-collapse justify-content-center"
-          id="navbarNavAltMarkup"
-        >
-          <div class="navbar-nav">
-            <a class="nav-item nav-link active" href="#">Home</a>
-            <a class="nav-item nav-link" href="#">Porfolio</a>
-            <a class="nav-item nav-link" href="#">About Me</a>
-          </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About Me</a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="main">
-      <!-- Record Display -->
+    <main>
       <div class="container mt-3">
         <div class="row">
           <div class="col text-end">
-            <p id="record-guesses" class="text-muted">Record: None guesses</p>
+            <p id="record-guesses" class="text-muted">
+              Personal Record: None guesses
+            </p>
           </div>
         </div>
       </div>
 
+      <!-- Game -->
       <div class="container mt-5 text-center">
         <h2>Welcome to the Guess the Number Game</h2>
-        <p class="lead" id="subHeader"></p>
-
+        <p class="lead" id="sub-header"></p>
+        <!-- Input Field -->
         <div class="d-flex flex-column align-items-center">
           <div class="mb-4">
             <input
               type="number"
-              id="guessInput"
+              id="user-input"
               class="form-control"
               placeholder="Enter your guess..."
               aria-label="Guess Number"
               style="width: 250px"
             />
+            <!-- Buttons -->
             <div class="d-grid gap-2 mt-2 d-md-flex justify-content-center">
-              <button class="btn btn-primary me-2 custom-btn" id="guessButton">
+              <button class="btn btn-primary me-2 custom-btn" id="guess-button">
                 Guess
               </button>
-              <button class="btn btn-success custom-btn" id="newGameButton">
+              <button class="btn btn-success custom-btn" id="new-game-button">
                 New Game
               </button>
             </div>
           </div>
         </div>
-
+        <!-- Message to user -->
         <div
-          id="messageAlert"
+          id="message-alert"
           class="alert w-50 mx-auto alert-primary"
           role="alert"
         ></div>
-
+        <!-- Info about the current game -->
         <div class="container mt-5">
           <h5 class="text-center">Current Game</h5>
           <ul class="list-group w-50 mx-auto">
             <li class="list-group-item">
               No. of Guesses:
-              <span class="badge bg-primary rounded-pill" id="no-of-guesses"
+              <span class="badge bg-primary rounded-pill" id="number-of-guesses"
                 >0</span
               >
             </li>
             <li class="list-group-item mb-2">
               Guessed Numbers are:
-              <span id="guessed-nums">None</span>
+              <span id="guessed-numbers-user">None</span>
             </li>
           </ul>
         </div>
 
+        <!-- History of computer guessed numbers -->
         <div class="container mt-5">
           <h5 class="text-center">Computer's Numbers History:</h5>
           <ul class="list-group w-50 mx-auto">
             <li class="list-group-item mb-2">
-              <div id="comp-nums"><!-- Badges will be inserted here --></div>
+              <div id="computer-numbers">
+                <!-- Badges will be inserted here -->
+              </div>
             </li>
           </ul>
         </div>
       </div>
-    </div>
-    <!-- Footer -->
-    <footer
-      class="text-center text-lg-start"
-      style="background-color: rgba(0, 0, 0, 0.2)"
-    >
-      <div class="text-center p-3">© 2023 Guess the Number Game</div>
-    </footer>
+    </main>
 
+    <!-- Footer -->
+    <div class="container">
+      <footer
+        class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+      >
+        <div class="col-md-4 d-flex text-muted">
+          <span class="text-muted">© 2023 Andre Barbosa</span>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+          <span class="text-muted">Javascript Projects</span>
+        </div>
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+          <li class="ms-3">
+            <a
+              class="text-muted"
+              href="https://github.com/alzbarbosa"
+              target="_blank"
+            >
+              <i class="fa-brands fa-github fa-2xl"></i>
+            </a>
+          </li>
+          <li class="ms-3">
+            <a
+              class="text-muted"
+              href="https://www.linkedin.com/in/andre-barbosa-b4933114a/"
+              target="_blank"
+            >
+              <i class="fa-brands fa-linkedin fa-2xl"></i>
+            </a>
+          </li>
+        </ul>
+      </footer>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://kit.fontawesome.com/51ff4837a4.js"
+      crossorigin="anonymous"
+    ></script>
     <script src="guess-the-number.js"></script>
   </body>
 </html>
